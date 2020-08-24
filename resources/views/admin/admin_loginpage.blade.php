@@ -25,9 +25,7 @@
     <body>
         <!-- Content Wrapper -->
         <div class="login-wrapper">
-            <div class="back-link">
-                <a href="index.html" class="btn btn-add">Back to Dashboard</a>
-            </div>
+            
             <div class="container-center">
             <div class="login-area">
                 <div class="panel panel-bd panel-custom">

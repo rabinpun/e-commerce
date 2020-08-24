@@ -42,6 +42,7 @@
 @include('main.layouts.header')
 @yield('content')
 @include('main.layouts.footer')
+@yield('qnt-js')
 
 
 <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
@@ -61,6 +62,8 @@
     <script src="{{asset('frontend_assets/js/form-validator.min.js')}}"></script>
     <script src="{{asset('frontend_assets/js/contact-form-script.js')}}"></script>
     <script src="{{asset('frontend_assets/js/custom.js')}}"></script>
+    <script src="{{asset('frontend_assets/js/checkout-stripe.js')}}"></script>
+    <script src="{{asset('js/app.js')}}"></script>
 </body>
 
 </html>

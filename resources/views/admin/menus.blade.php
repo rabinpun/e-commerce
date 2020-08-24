@@ -112,9 +112,26 @@
     @foreach($items as $menu_item)
             @if ($menu_item->title == 'Contact Us')
    
-    <li class="nav-item"><a class="nav-link" href="{{ $menu_item->link() }}">{{ $menu_item->title }}</a></li>
+    <li class="nav-item"  style="margin-right:7rem"><a class="nav-link" href="{{ $menu_item->link() }}">{{ $menu_item->title }}</a></li>
     @endif
     @endforeach
+
+    @guest
+    
+    <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Log In</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{route('register') }}">Sign Up</a></li>
+    @else
+    <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}"
+    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+        {{ __('Logout') }}
+    </a></li>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    @endguest
+    
     
     
 </ul> 

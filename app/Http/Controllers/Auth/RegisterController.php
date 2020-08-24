@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';//we cannot edit here so we do it in bottom
 
     /**
      * Create a new controller instance.
@@ -38,6 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        session()->put('previousUrl', url()->previous());//putting the previous url in session
         $this->middleware('guest');
     }
 
@@ -64,10 +65,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
+
+   public function redirectTo(){
+    
+         return session()->get('previousUrl','/');     
+       //redirects to previous url if there is no in the session redirects to home '/'
+   }
 }

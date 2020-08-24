@@ -27,7 +27,7 @@ class CouponsController extends Controller
             'discount'=>$coupon->discount(Cart::subtotal())
         ]);
         
-
+          
 
         return redirect()->route('cart.index')->with([
             'success_message'=>'Coupon applied successfully!!!',

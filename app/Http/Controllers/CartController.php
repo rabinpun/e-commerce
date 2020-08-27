@@ -15,7 +15,9 @@ class CartController extends Controller
      */
     public function index()
     {
+       
         $discount=session()->get('usedcoupon')['discount']  ?? 0; //its sets value to 0 if there is no such item in session otherwise there will be error 
+        //dd(Cart::subtotal());
         $newsubtotal=Cart::subtotal()-$discount;
         $newtax=config('cart.tax')/100 * $newsubtotal;//config('cart.tax') this gets the tax value from the cart.php in config folder
         $newtotal=$newsubtotal+$newtax;

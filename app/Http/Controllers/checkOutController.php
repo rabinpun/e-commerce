@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+//use Cartalyst\StripeLaravel\Facades\Stripe;
+//use Cartalyst\Stripe\Stripe;
+
+use App\Http\Requests\CheckoutRequest;
+use Exception;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+
+
 
 class checkOutController extends Controller
 {
@@ -16,6 +24,10 @@ class checkOutController extends Controller
         $finalamount=session()->get('finalamt')['newtotal'];
         $finalsubamount=session()->get('finalamt')['newsubtotal'];
         $finaltax=session()->get('finalamt')['newtax'];
+
+        if(auth()->user() && request()->is('guestcheckout')){ //redirects to checkout instead of guestcheckout if the user is loggedin and still clicks on guest checkout
+            return redirect()->route('checkout.index');
+        }
 
         return view('main.checkout')->with([
             'finalamount'=> $finalamount,
@@ -41,10 +53,41 @@ class checkOutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
-        dd($request->all());
-    }
+        //this can be done with foreach but showing a bit variation
+        $contents=Cart::content()->map(function ($product){
+                return $product->model->slug.':'.$product->qty;
+        })->values()->toJson();//converting to json format
+        $finalamount=session()->get('finalamt')['newtotal'];  
+        $sk=env('STRIPE_SECRET');      
+                
+                try {
+                            // Set your secret key. Remember to switch to your live secret key in production!
+                // See your keys here: https://dashboard.stripe.com/account/apikeys
+                \Stripe\Stripe::setApiKey($sk);//just to make a bit secure we are getting the key from .env file
+
+                // Token is created using Stripe Checkout or Elements!
+                // Get the payment token ID submitted by the form:
+                
+                $charge = \Stripe\Charge::create([
+                'amount' => $finalamount*100,//stripe automatically divides the amount by 100 so we have to cancel it out by multipling by 100
+                'currency' => 'npr',//must be npr it has predefined currency names
+                'description' => 'Order',
+                'source' => $request->stripeToken,
+                'receipt_email'=>$request->email,
+                'metadata'=>[
+                    'contents'=>$contents,
+                    'quantity'=>Cart::instance('default')->count(),
+                ],
+                ]);
+                Cart::instance('default')->destroy();
+                return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
+                } catch (\Stripe\Exception\CardException $e) {
+                    return back()->with('cardfail','Card Invalid!! Card details incorrect or use another card.');
+                }
+    
+            }
 
     /**
      * Display the specified resource.

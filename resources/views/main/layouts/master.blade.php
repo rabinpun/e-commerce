@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>ThewayShop - Ecommerce Bootstrap 4 HTML Template</title>
+    <title>Ecommerce By Rabin</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -19,7 +19,7 @@
     <!-- Site Icons -->
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
+    
     <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="{{asset('frontend_assets/css/bootstrap.min.css')}}">
     <!-- Site CSS -->
@@ -40,9 +40,11 @@
 <body>
 
 @include('main.layouts.header')
+
 @yield('content')
 @include('main.layouts.footer')
 @yield('qnt-js')
+
 
 
 <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>

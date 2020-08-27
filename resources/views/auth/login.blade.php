@@ -62,6 +62,7 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <a class="btn btn-primary" href="{{route('guestcheckout.index')}}">Check Out as Guest</a>
                             </div>
                         </div>
                     </form>

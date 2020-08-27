@@ -68,8 +68,10 @@ class ProductsController extends Controller
      */
     public function show($slug)
     {
+        
         $mal_products=Product::where('slug','!=',$slug)->MightAlsoLike()->get();
         $product=Product::where('slug',$slug)->firstOrFail();
+        //  dd($product->price);
         return view('main.product')->with([
             'product'=>$product,
             'mal_products'=>$mal_products

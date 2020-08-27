@@ -49,27 +49,22 @@ Route::view('/failpay','main.fail');
 
 //checkout
 
-Route::get('/checkout','checkOutController@index')->name('checkout.index');
+Route::get('/checkout','checkOutController@index')->name('checkout.index')->middleware('auth');
 Route::post('/checkout','checkOutController@store')->name('checkout.store');
+
+//guest checkout
+Route::get('/guestcheckout','checkOutController@index')->name('guestcheckout.index');
+Route::post('/guestcheckout','checkOutController@store')->name('guestcheckout.store');
 
 //coupons add and delete
 
 Route::post('/coupons','CouponsController@store')->name('coupons.store');
 Route::delete('/coupons','CouponsController@destroy')->name('coupons.delete');
 
-Route::get('/empty',function ()
-{
-    Cart::destroy();
-});
 
-Route::get('/show',function ()
-{
-     return Cart::instance('saveforlater')->content();
-});
-Route::get('/empty1',function ()
-{
-    Cart::instance('saveforlater')->destroy();
-});
+//confirmation after success pay
+Route::get('/thankyou','ConfirmationController@index')->name('confirmation.index');
+
 
 
 
@@ -82,4 +77,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::view('/home', 'admin.admin_loginpage')->name('home');

@@ -14,10 +14,12 @@
         </div>
     </div>
 </div>
+
 <div style="height: 50vh;margin-top:90px;margin-left:250px;margin-right:250px;margin-bottom:50px;text-align:center;border:2px solid black;">
     <br><br>
-    <h1 style="font-size: 40px" class="alert alert-danger"><strong>There was appears to be a problem.</strong></h1>
-    <h3>Please try again, Sorry for the inconvenience!!</h3>
+    <h1 style="font-size: 40px" class="alert alert-danger"><strong>Sorry for the inconvenience</strong></h1>
+    @include('main.includes.messages')
+    <h3>There was an error!! Please Try Again.</h3>
     <button class="btn-lg btn-secondary">Home Page</button>
 </div>
 

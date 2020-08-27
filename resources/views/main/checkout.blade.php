@@ -1,9 +1,12 @@
 @extends('main.layouts.master')
 
+
+
+
 @section('content')
 
 
-<script src="https://js.stripe.com/v3/"></script>
+
 <!-- Start All Title Box -->
 <div class="all-title-box">
     <div class="container">
@@ -20,299 +23,229 @@
     </div>
     
 </div>
+@include('main.includes.messages')
 <!-- End All Title Box -->
 <!-- Start Cart  -->
 <div class="cart-box-main">
     <div class="container">
         <div class="row new-account-login">
             <div class="col-sm-6 col-lg-6 mb-3">
-                <div class="title-left">
-                    <h3>Account Login</h3>
-                </div>
-                <h5><a data-toggle="collapse" href="#formLogin" role="button" aria-expanded="false">Click here to Login</a></h5>
-                <form class="mt-3 collapse review-form-box" id="formLogin">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="InputEmail" class="mb-0">Email Address</label>
-                            <input type="email" class="form-control" id="InputEmail" placeholder="Enter Email"> </div>
-                        <div class="form-group col-md-6">
-                            <label for="InputPassword" class="mb-0">Password</label>
-                            <input type="password" class="form-control" id="InputPassword" placeholder="Password"> </div>
-                    </div>
-                    <button type="submit" class="btn hvr-hover">Login</button>
-                </form>
-            </div>
-            <div class="col-sm-6 col-lg-6 mb-3">
-                <div class="title-left">
-                    <h3>Create New Account</h3>
-                </div>
-                <h5><a data-toggle="collapse" href="#formRegister" role="button" aria-expanded="false">Click here to Register</a></h5>
-                <form class="mt-3 collapse review-form-box" id="formRegister">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="InputName" class="mb-0">First Name</label>
-                            <input type="text" class="form-control" id="InputName" placeholder="First Name"> </div>
-                        <div class="form-group col-md-6">
-                            <label for="InputLastname" class="mb-0">Last Name</label>
-                            <input type="text" class="form-control" id="InputLastname" placeholder="Last Name"> </div>
-                        <div class="form-group col-md-6">
-                            <label for="InputEmail1" class="mb-0">Email Address</label>
-                            <input type="email" class="form-control" id="InputEmail1" placeholder="Enter Email"> </div>
-                        <div class="form-group col-md-6">
-                            <label for="InputPassword1" class="mb-0">Password</label>
-                            <input type="password" class="form-control" id="InputPassword1" placeholder="Password"> </div>
-                    </div>
-                    <button type="submit" class="btn hvr-hover">Register</button>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-lg-6 mb-3">
-                <form action="{{route('checkout.store')}}" method="POST"  id="payment-form">
-                    @csrf
-                    <div  class="col-md-6 mb-3">
-                        <label for="card-element">
-                            Credit or debit card
-                          </label>
-                          <div id="card-element">
-                            <!-- A Stripe Element will be inserted here. -->
-                          </div>
-                      
-                          <!-- Used to display form errors. -->
-                          <div id="card-errors" role="alert"></div>
-                          
-                    </div>
-                    <button  id="submit">sd</button> 
-                </form>
-                <div class="checkout-address">
-                    <div class="title-left">
-                        <h3>Billing address</h3>
-                    </div>
-                  
-                    <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="firstName">First name *</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                                <div class="invalid-feedback"> Valid first name is required. </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="lastName">Last name *</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                                <div class="invalid-feedback"> Valid last name is required. </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="username">Username *</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="username" placeholder="" required>
-                                <div class="invalid-feedback" style="width: 100%;"> Your username is required. </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email">Email Address *</label>
-                            <input type="email" class="form-control" id="email" placeholder="">
-                            <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="address">Address *</label>
-                            <input type="text" class="form-control" id="address" placeholder="" required>
-                            <div class="invalid-feedback"> Please enter your shipping address. </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-5 mb-3">
-                                <label for="country">Country *</label>
-                                <select class="wide w-100" id="country">
-                                <option value="Choose..." data-display="Select">Choose...</option>
-                                <option value="United States">United States</option>
-                            </select>
-                                <div class="invalid-feedback"> Please select a valid country. </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="state">State *</label>
-                                <select class="wide w-100" id="province">
-                                <option data-display="Select">Choose...</option>
-                                <option >Alabama</option>
-                                <option >Alaska</option>
-                                <option >Arizona</option>
-                                <option>Arkansas</option>
-                                <option>California</option>
-                                <option>Colorado</option>
-                                <option>Connecticut</option>
-                                <option>Delaware</option>
-                                <option>District Of Columbia</option>
-                                <option>Florida</option>
-                                <option>Georgia</option>
-                                <option>Hawaii</option>
-                                <option>Idaho</option>
-                                <option>Illinois</option>
-                                <option>Indiana</option>
-                                <option>Iowa</option>
-                                <option>Kansas</option>
-                                <option>Kentucky</option>
-                                <option>Louisiana</option>
-                                <option>Maine</option>
-                                <option>Maryland</option>
-                                <option>Massachusetts</option>
-                                <option>Michigan</option>
-                                <option>Minnesota</option>
-                                <option>Mississippi</option>
-                                <option>Missouri</option>
-                                <option>Montana</option>
-                                <option >Nebraska</option>
-                                <option >Nevada</option>
-                                <option >New Hampshire</option>
-                                <option >New Jersey</option>
-                                <option >New Mexico</option>
-                                <option >New York</option>
-                                <option >North Carolina</option>
-                                <option>North Dakota</option>
-                                <option >Ohio</option>
-                                <option >Oklahoma</option>
-                                <option >Oregon</option>
-                                <option >Pennsylvania</option>
-                                <option >Rhode Island</option>
-                                <option >South Carolina</option>
-                                <option >South Dakota</option>
-                                <option >Tennessee</option>
-                                <option >Texas</option>
-                                <option >Utah</option>
-                                <option >Vermont</option>
-                                <option >Virginia</option>
-                                <option >Washington</option>
-                                <option >West Virginia</option>
-                                <option >Wisconsin</option>
-                                <option >Wyoming</option>
+                
+                
+                <div >
+                   
+                    <div class="checkout-address">
 
-                            </select>
-                                <div class="invalid-feedback"> Please provide a valid state. </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="zip">Zip *</label>
-                                <input type="text" class="form-control" id="postalcode" placeholder="" required>
-                                <div class="invalid-feedback"> Zip code required. </div>
-                            </div>
+                        <div class="title-left">
+                            <h3>Billing address</h3>
                         </div>
-                        <hr class="mb-4">
+                      
                         
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="cc-name">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required> <small class="text-muted">Full name as displayed on card</small>
-                                <div class="invalid-feedback"> Name on card is required </div>
+                            <script src="https://js.stripe.com/v3/"></script>
+                            @auth
+                            <form action="{{route('checkout.store')}}" method="post" id="payment-form"><!--for loggedin users-->
+                            @else
+                            <form action="{{route('guestcheckout.store')}}" method="post" id="payment-form"><!--for guest users-->
+
+                            @endauth
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">First name *</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
+                                    <div class="invalid-feedback"> Valid first name is required. </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName">Last name *</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
+                                    <div class="invalid-feedback"> Valid last name is required. </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username">Username *</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="" required>
+                                    <div class="invalid-feedback" style="width: 100%;"> Your username is required. </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="" required>
+                                <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Phone Number *</label>
+                                <input type="number" class="form-control" id="phone" name="phone" placeholder="" required>
+                                <div class="invalid-feedback"> Please enter a valid phone number for shipping updates. </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address">Address *</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="" required>
+                                <div class="invalid-feedback"> Please enter your shipping address. </div>
                             </div>
                             
-                            <div  class="col-md-6 mb-3">
-                                <label for="card-element">
-                                    Credit or debit card
+                            <div class="row">
+                                <div class="col-md-5 mb-3">
+                                    <label for="country">Province *</label>
+                                    <select class="wide w-100" id="province" name="province" required>
+                                    <option value="Choose..." data-display="Select">Choose...</option>
+                                    <option value="Province No. 1">Province No. 1</option>
+                                    <option value="Province No. 2">Province No. 2</option>
+                                    <option value="Province No. 5">Province No. 5</option>
+                                    <option value="Karnali Pradesh">Karnali Pradesh</option>
+                                    <option value="Sudurpashchim Pradesh">Sudurpashchim Pradesh</option>
+                                    <option value="Bagmati Pradesh">Bagmati Pradesh</option>
+                                    <option value="Gandaki Pradesh">Gandaki Pradesh</option>
+                                </select>
+                                    <div class="invalid-feedback"> Please select a valid province. </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="state">District *</label>
+                                    <select class="wide w-100" id="district" name="district" required>
+                                    <option data-display="Select">Choose...</option>
+                                    <option >Chitwan</option>
+                                    <option >Kathmandu</option>  
+                                </select>
+                                    <div class="invalid-feedback"> Please provide a valid district. </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="zip">Zip *</label>
+                                    <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="" required>
+                                    <div class="invalid-feedback"> Zip code required. </div>
+                                </div>
+                            </div>
+                            <hr class="mb-4">
+                            
+                            </div>
+                            
+                                <div ><!--<div class="form-row"> was creating a conflict with the app.css file so remove this class always-->
+                                  <label for="card-element">
+                                    <h4>Credit or debit card</h4> 
                                   </label>
-                                  <div id="card-element">
+                                  <div class="mb-3">
+                                    <label for="cardName">Card Name *</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cardName" name="cardName" placeholder="" required>
+                                        <div class="invalid-feedback" style="width: 100%;"> Your card name is required. </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                <div class="input-group"><!--making the cc part look like other part of form-->
+                                  <div id="card-element" class="form-control">
                                     <!-- A Stripe Element will be inserted here. -->
                                   </div>
+                                </div>
+                            </div>
                               
                                   <!-- Used to display form errors. -->
                                   <div id="card-errors" role="alert"></div>
-                                  
+                                </div>
+                              
+                                <button class=" btn hvr-hover" style="margin-top: 2rem" id="complete-order">Pay with Card</button>
+                              </form>
+                        
+                            
+                            
+                       
+                    </div>
+            </div>
+            <div class="col-sm-6 col-lg-6 mb-3" >
+                
+                <div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12" >
+                            <div class="shipping-method-box">
+                                <div class="title-left">
+                                    <h3>Shipping Method</h3>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="custom-control custom-radio">
+                                        <input id="shippingOption1" name="shipping-option" class="custom-control-input" checked="checked" type="radio">
+                                        <label class="custom-control-label" for="shippingOption1">Standard Delivery</label> <span class="float-right font-weight-bold">FREE</span> </div>
+                                    <div class="ml-4 mb-2 small">(3-7 business days)</div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="shippingOption2" name="shipping-option" class="custom-control-input" type="radio">
+                                        <label class="custom-control-label" for="shippingOption2">Express Delivery</label> <span class="float-right font-weight-bold">$10.00</span> </div>
+                                    <div class="ml-4 mb-2 small">(2-4 business days)</div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="shippingOption3" name="shipping-option" class="custom-control-input" type="radio">
+                                        <label class="custom-control-label" for="shippingOption3">Next Business day</label> <span class="float-right font-weight-bold">$20.00</span> </div>
+                                </div>
                             </div>
-                    
+                        </div>
+                        <div class="col-md-12 col-lg-12" >
+                            <div class="odr-box">
+                                <div class="title-left">
+                                    <h3>Shopping cart</h3>
+                                </div>
+                                <div class="rounded p-2 bg-light">
+                                    @foreach (Cart::content() as $product)
+                                    <div class="media mb-2 border-bottom">
+                                    <div class="media-body"> <img style="width: 40px;height:40px" src="{{asset('storage/'.$product->model->image)}}" alt=""> <a href="{{route('products.show',$product->model->slug)}}">{{$product->model->name}}</a>
+                                            <div class="small text-muted">Price: {{$product->model->price}} <span class="mx-2">|</span> Qty: 1 <span class="mx-2">|</span> Subtotal: {{$product->model->price}}</div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="order-box">
+                                <div class="title-left">
+                                    <h3>Your order</h3>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="font-weight-bold">Product</div>
+                                    <div class="ml-auto font-weight-bold">Total</div>
+                                </div>
+                                <hr class="my-1">
+                                <div class="d-flex">
+                                    <h4>Sub Total</h4>
+                                    <div class="ml-auto font-weight-bold">{{$finalsubamount}}</div>
+                                </div>
+                                
+                                <hr class="my-1">
+                                
+                                <div class="d-flex">
+                                    <h4>Tax</h4>
+                                    <div class="ml-auto font-weight-bold">{{$finaltax}}</div>
+                                </div>
+                                
+                                <hr>
+                                <div class="d-flex gr-total">
+                                    <h5>Grand Total</h5>
+                                    <div class="ml-auto h5">{{$finalamount}}</div>
+                                </div>
+                                <div style="margin-left: 20rem">
+                                    <form action="https://uat.esewa.com.np/epay/main" method="POST">
+                                    <input value="{{$finalamount}}" name="tAmt" type="hidden">
+                                    <input value="{{$finalsubamount}}" name="amt" type="hidden">
+                                    <input value="{{$finaltax}}" name="txAmt" type="hidden">
+                                    <input value="0" name="psc" type="hidden">
+                                    <input value="0" name="pdc" type="hidden">
+                                    <input value="epay_payment" name="scd" type="hidden">
+                                    <input value="{{rand(1,999999999999)}}" name="pid" type="hidden">
+                                    <input value="http://127.0.0.1:8000/successpay" type="hidden" name="su">
+                                    <input value="http://127.0.0.1:8000/failpay" type="hidden" name="fu">
+                                    <button class="btn btn-success" type="submit"> <img style="height: 2.5rem;width:5rem" src="{{asset('imgs/logos/esewa/esewa-logo.png')}}" alt=""> Pay with esewa</button>
+                                    </form>
+                                </div>
+                                <hr> </div>
                         </div>
                         
-                        <hr class="mb-1"> 
-                        <button id="submit" type="submit" class="btn hvr-hover">Checkout</button> 
-                    </form>
-                   
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-6 mb-3">
-                <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                        <div class="shipping-method-box">
-                            <div class="title-left">
-                                <h3>Shipping Method</h3>
-                            </div>
-                            <div class="mb-4">
-                                <div class="custom-control custom-radio">
-                                    <input id="shippingOption1" name="shipping-option" class="custom-control-input" checked="checked" type="radio">
-                                    <label class="custom-control-label" for="shippingOption1">Standard Delivery</label> <span class="float-right font-weight-bold">FREE</span> </div>
-                                <div class="ml-4 mb-2 small">(3-7 business days)</div>
-                                <div class="custom-control custom-radio">
-                                    <input id="shippingOption2" name="shipping-option" class="custom-control-input" type="radio">
-                                    <label class="custom-control-label" for="shippingOption2">Express Delivery</label> <span class="float-right font-weight-bold">$10.00</span> </div>
-                                <div class="ml-4 mb-2 small">(2-4 business days)</div>
-                                <div class="custom-control custom-radio">
-                                    <input id="shippingOption3" name="shipping-option" class="custom-control-input" type="radio">
-                                    <label class="custom-control-label" for="shippingOption3">Next Business day</label> <span class="float-right font-weight-bold">$20.00</span> </div>
-                            </div>
-                        </div>
                     </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="odr-box">
-                            <div class="title-left">
-                                <h3>Shopping cart</h3>
-                            </div>
-                            <div class="rounded p-2 bg-light">
-                                @foreach (Cart::content() as $product)
-                                <div class="media mb-2 border-bottom">
-                                <div class="media-body"> <img style="width: 40px;height:40px" src="{{asset('imgs/products/laptops/'.$product->model->slug.'.jpg')}}" alt=""> <a href="{{route('products.show',$product->model->slug)}}">{{$product->model->name}}</a>
-                                        <div class="small text-muted">Price: {{$product->model->price}} <span class="mx-2">|</span> Qty: 1 <span class="mx-2">|</span> Subtotal: {{$product->model->price}}</div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="order-box">
-                            <div class="title-left">
-                                <h3>Your order</h3>
-                            </div>
-                            <div class="d-flex">
-                                <div class="font-weight-bold">Product</div>
-                                <div class="ml-auto font-weight-bold">Total</div>
-                            </div>
-                            <hr class="my-1">
-                            <div class="d-flex">
-                                <h4>Sub Total</h4>
-                                <div class="ml-auto font-weight-bold">{{$finalsubamount}}</div>
-                            </div>
-                            
-                            <hr class="my-1">
-                            
-                            <div class="d-flex">
-                                <h4>Tax</h4>
-                                <div class="ml-auto font-weight-bold">{{$finaltax}}</div>
-                            </div>
-                            
-                            <hr>
-                            <div class="d-flex gr-total">
-                                <h5>Grand Total</h5>
-                                <div class="ml-auto h5">{{$finalamount}}</div>
-                            </div>
-                            <hr> </div>
-                    </div>
-                    
                 </div>
             </div>
         </div>
+      
+            
+        </div>
 
     </div>
-</div>
-<body>
-    <form action="https://uat.esewa.com.np/epay/main" method="POST">
-    <input value="{{$finalamount}}" name="tAmt" type="hidden">
-    <input value="{{$finalsubamount}}" name="amt" type="hidden">
-    <input value="{{$finaltax}}" name="txAmt" type="hidden">
-    <input value="0" name="psc" type="hidden">
-    <input value="0" name="pdc" type="hidden">
-    <input value="epay_payment" name="scd" type="hidden">
-    <input value="{{rand(1,999999999999)}}" name="pid" type="hidden">
-    <input value="http://127.0.0.1:8000/successpay" type="hidden" name="su">
-    <input value="http://127.0.0.1:8000/failpay" type="hidden" name="fu">
-    <button class="btn btn-success" type="submit"> <img style="height: 5rem;width:10rem" src="{{asset('imgs/logos/esewa/esewa-logo.png')}}" alt=""> Pay with esewa</button>
-    </form>
-</body>
+    <!--stripe js is in the checkout-stripe.js-->
+
+
+
 
 <!-- End Cart -->
 
@@ -321,3 +254,4 @@
 
     
 @endsection
+

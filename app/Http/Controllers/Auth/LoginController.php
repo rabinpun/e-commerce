@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/';//this is overridden below
 
     /**
      * Create a new controller instance.
@@ -39,7 +40,6 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
     
 
     //this is brought from the AuthenticateUsers definition above to override the redirect location after login

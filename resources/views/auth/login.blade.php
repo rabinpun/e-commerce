@@ -1,22 +1,23 @@
 @extends('main.layouts.master')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div  class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form id="loginform" method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
+                                <input id="email" type="email" required class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus>
+                               
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -29,7 +30,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" required class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -53,7 +54,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button id="button" type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
 
@@ -62,7 +63,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                @if(url()->previous()=='http://127.0.0.1:8000/guestcheckout' || url()->previous()=='http://127.0.0.1:8000/cart')<!--so that when a user trys to first login he doesnt see checkout as guest checkout as guest is only seen when a guest is trying to checkout or a guest uses email that is already registered and moved to login page-->
                                 <a class="btn btn-primary" href="{{route('guestcheckout.index')}}">Check Out as Guest</a>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -71,4 +74,11 @@
         </div>
     </div>
 </div>
+
+
+
+
 @endsection
+
+
+

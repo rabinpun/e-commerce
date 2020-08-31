@@ -25,7 +25,7 @@ class checkOutController extends Controller
         $finalsubamount=session()->get('finalamt')['newsubtotal'];
         $finaltax=session()->get('finalamt')['newtax'];
 
-        if(auth()->user() && request()->is('guestcheckout')){ //redirects to checkout instead of guestcheckout if the user is loggedin and still clicks on guest checkout
+        if(auth()->user() && request()->is('guestcheckout')){ //redirects to checkout instead of guestcheckout if the user is loggedin and still clicks on guest checkout or when a guest from guestcheckout signs in we redirect him to checkout instead of guestcheckout
             return redirect()->route('checkout.index');
         }
 
@@ -60,7 +60,8 @@ class checkOutController extends Controller
                 return $product->model->slug.':'.$product->qty;
         })->values()->toJson();//converting to json format
         $finalamount=session()->get('finalamt')['newtotal'];  
-        $sk=env('STRIPE_SECRET');      
+        $sk=env('STRIPE_SECRET');    
+        session()->put('finalamount',$finalamount);  
                 
                 try {
                             // Set your secret key. Remember to switch to your live secret key in production!
@@ -81,9 +82,9 @@ class checkOutController extends Controller
                     'quantity'=>Cart::instance('default')->count(),
                 ],
                 ]);
-                Cart::instance('default')->destroy();
+                Cart::instance('default')->destroy();//clears the cart after successful payment
                 return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
-                } catch (\Stripe\Exception\CardException $e) {
+                } catch (\Stripe\Exception\CardException $e) {//catching card error exception
                     return back()->with('cardfail','Card Invalid!! Card details incorrect or use another card.');
                 }
     

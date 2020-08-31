@@ -23,14 +23,21 @@ class CheckoutRequest extends FormRequest
      */
     public function rules()//server side validation 
     {
+        $emailValidation = auth()->user() ? 'required|email' : 'required|email|unique:users';//if user is not logged in and tries to checkout as a guest and uses a register email results error(email already exist)//but we change it with custom message to fit the purpose
         return [
-            'email'=>'required|email',
-            'name'=>'required',
+            'email'=>$emailValidation,
+            'username'=>'required',
             'address'=>'required',
             'province'=>'required',
             'district'=>'required',
             'postalcode'=>'required',
             'phone'=>'required|numeric|digits:10',
+        ];
+    }
+    public function messages()
+    {
+        return[
+            'email.unique'=>'You have already an account with this email.<a class="btn btn-primary" href="/checkout"> Login<a> with your account.',
         ];
     }
 }

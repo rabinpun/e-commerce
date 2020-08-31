@@ -8,6 +8,6 @@
 
 @if (count($errors)>0)
     @foreach ($errors->all() as $error)
-        <div class="alert alert-danger"><li>{{$error}}</li></div> 
+        <div class="alert alert-danger"><li>{!!$error!!}</li></div> <!--so that the html in errors msg can be parsed to create login anchortag when guest uses a registered account as email address-->
     @endforeach
 @endif

@@ -44,6 +44,7 @@
 @yield('content')
 @include('main.layouts.footer')
 @yield('qnt-js')
+@yield('extra-js')
 
 
 

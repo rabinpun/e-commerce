@@ -85,12 +85,13 @@
                 'name':document.querySelector('#name').value,
                 'email':document.querySelector('#email').value,  // # is id and . is class
                 'password':document.querySelector('#password').value,
-                'passwordconfirm':document.querySelector('#email').value,
+                'password_confirmation':document.querySelector('#passwordconfirm').value,
             })
             .then(function (response) {
-                alert('yes');
+                window.location.href='/';
             })
             .catch(function (error) {
+                
                  console.log(error.response.data.errors);
                 const errors= error.response.data.errors;
                 const firstItem = Object.keys(errors)[0];// cant just use firstitem = errors[0] coz the error an object of arrays {xyz:"asdasd",efe="asdassa"} Object.keys will convert object into array

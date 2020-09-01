@@ -52,6 +52,8 @@ Route::view('/failpay','main.fail');
 Route::get('/checkout','checkOutController@index')->name('checkout.index')->middleware('auth');
 Route::post('/checkout','checkOutController@store')->name('checkout.store');
 
+Route::post('/checkout','checkOutController@fetch')->name('checkout.fetch');
+
 //guest checkout
 Route::get('/guestcheckout','checkOutController@index')->name('guestcheckout.index');
 Route::post('/guestcheckout','checkOutController@store')->name('guestcheckout.store');

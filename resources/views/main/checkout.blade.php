@@ -84,27 +84,22 @@
                                 <div class="invalid-feedback"> Please enter your shipping address. </div>
                             </div>
                             
-                            <div class="row">
+                            <div class="row ">
                                 <div class="col-md-5 mb-3">
                                     <label for="country">Province *</label>
-                                    <select class="wide w-100" id="province" name="province" required>
-                                    <option value="Choose..." data-display="Select">Choose...</option>
-                                    <option value="Province No. 1">Province No. 1</option>
-                                    <option value="Province No. 2">Province No. 2</option>
-                                    <option value="Province No. 5">Province No. 5</option>
-                                    <option value="Karnali Pradesh">Karnali Pradesh</option>
-                                    <option value="Sudurpashchim Pradesh">Sudurpashchim Pradesh</option>
-                                    <option value="Bagmati Pradesh">Bagmati Pradesh</option>
-                                    <option value="Gandaki Pradesh">Gandaki Pradesh</option>
+                                    <select class="wide w-100 dynamicoption" id="province" name="province" data-dependent="district" required>
+                                    <option  value="Choose..." data-display="Select">Choose...Province</option>
+                                    @foreach($provinces as $province)
+                                    <option value="{{$province->province}}">{{$province->province}}</option>
+                                    @endforeach
                                 </select>
                                     <div class="invalid-feedback"> Please select a valid province. </div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="state">District *</label>
-                                    <select class="wide w-100" id="district" name="district" required>
-                                    <option data-display="Select">Choose...</option>
-                                    <option >Chitwan</option>
-                                    <option >Kathmandu</option>  
+                                    <select class="wide w-100 dynamicoption" id="district" name="district"  required>
+                                    <option data-display="Select">Choose...District</option>
+                                    
                                 </select>
                                     <div class="invalid-feedback"> Please provide a valid district. </div>
                                 </div>
@@ -255,3 +250,35 @@
     
 @endsection
 
+@section('qnt-js')
+   <script>
+       
+       $(document).ready(function(){
+
+            $('.dynamicoption').change(function(){
+            if($(this).val() != '')
+            {
+            var select = $(this).attr("id");//id of province  id='province'
+            var value = $(this).val();//value of the province
+            var dependent = $(this).data('dependent');//the value that is dependent on province ie district in this case
+            var _token = $('input[name="_token"]').val();//this is the csrf token
+            $.ajax({
+            url:"{{ route('checkout.fetch') }}",
+            method:"POST",
+            data:{select:select, value:value, _token:_token, dependent:dependent},
+            success:function(result)
+            {
+                $('#'+dependent).html(result); //replaces the html of #dependent=>id=dependent=>id='district';
+            }
+
+            })
+            }
+            });
+
+           
+
+
+});
+</script>
+
+@endsection

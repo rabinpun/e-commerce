@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 //use Cartalyst\StripeLaravel\Facades\Stripe;
 //use Cartalyst\Stripe\Stripe;
 
+use App\address;
 use App\Http\Requests\CheckoutRequest;
 use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -21,6 +23,8 @@ class checkOutController extends Controller
      */
     public function index()
     {
+        
+        $provinces= address::groupBy('province')->get();//change the strict to false as it will make an error if true //groups the provinces by their name and takes one form each
         $finalamount=session()->get('finalamt')['newtotal'];
         $finalsubamount=session()->get('finalamt')['newsubtotal'];
         $finaltax=session()->get('finalamt')['newtax'];
@@ -32,7 +36,8 @@ class checkOutController extends Controller
         return view('main.checkout')->with([
             'finalamount'=> $finalamount,
             'finalsubamount'=> $finalsubamount,
-            'finaltax'=> $finaltax
+            'finaltax'=> $finaltax,
+            'provinces'=>$provinces,
             
         ]);
     }
@@ -109,7 +114,7 @@ class checkOutController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -121,7 +126,8 @@ class checkOutController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      
+        
     }
 
     /**
@@ -134,4 +140,20 @@ class checkOutController extends Controller
     {
         //
     }
+    public function fetch(Request $request)
+    {
+        
+      //we can also add country before province or add city after district to make it more dynamic
+    $select = $request->get('select');
+     $value = $request->get('value');
+     $dependent = $request->get('dependent');
+     $districts =address::where($select, $value)->get();
+     $output = '<option value="">Choose...'.ucfirst($dependent).'</option>';//ucfirst makes the first letter capital
+     foreach($districts as $row)
+     {
+      $output .= '<option value="'.$row->district.'">'.$row->district.'</option>';
+     }
+     echo $output;
+    }
+    
 }

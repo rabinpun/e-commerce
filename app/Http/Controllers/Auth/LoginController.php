@@ -50,13 +50,17 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        session()->put('previousUrl', url()->previous());//putting the previous url in session so that we can redirect it to that after login
+        {
+             session()->put('previousUrl', url()->previous());//putting the previous url in session so that we can redirect it to that after login
+         }
+        
         return view('auth.login');
     }
     //url('/')=>gets home page url in our case 127.0.0.1:800 just saying if ever needed
     public function redirectTo()
     {
         return session()->get('previousUrl','/');//redirects to previous url if there is no in the session redirects to home '/'
+        
     }
 
 

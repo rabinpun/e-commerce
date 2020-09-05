@@ -43,9 +43,10 @@
                         
                             <script src="https://js.stripe.com/v3/"></script>
                             @auth
-                            <form action="{{route('checkout.store')}}" method="post" id="payment-form"><!--for loggedin users-->
+                            <form action="{{route('checkoutcod.store')}}" method="post" id="payment-form"><!--for loggedin users-->
                             @else
-                            <form action="{{route('guestcheckout.store')}}" method="post" id="payment-form"><!--for guest users-->
+                            <form action="{{route('checkoutcod.store')}}" method="post" id="payment-form"><!--for guest users-->
+                            
 
                             @endauth
                             @csrf
@@ -113,30 +114,9 @@
                             
                             </div>
                             
-                                <div ><!--<div class="form-row"> was creating a conflict with the app.css file so remove this class always-->
-                                  <label for="card-element">
-                                    <h4>Credit or debit card</h4> 
-                                  </label>
-                                  <div class="mb-3">
-                                    <label for="cardName">Card Name *</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="cardName" name="cardName" placeholder="" >
-                                        <div class="invalid-feedback" style="width: 100%;"> Your card name is required. </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                <div class="input-group"><!--making the cc part look like other part of form-->
-                                  <div id="card-element" class="form-control">
-                                    <!-- A Stripe Element will be inserted here. -->
-                                  </div>
-                                </div>
-                            </div>
-                              
-                                  <!-- Used to display form errors. -->
-                                  <div id="card-errors" role="alert"></div>
-                                </div>
-                                <input type="hidden" name="paymentmethod" value="Card">
-                                <button class=" btn hvr-hover" style="margin-top: 2rem" id="complete-order">Pay with Card</button>
+                                
+                                <input type="hidden" name="paymentmethod" value="cashondelivery">
+                                <button class=" btn hvr-hover" style="margin-top: 2rem" id="complete-order">Cash on Delivery</button>
                              
                         
                             
@@ -168,6 +148,7 @@
                         </div>
                         <div class="col-md-12 col-lg-12" >
                             
+                        </div>
                     </form>
                     {{-- form end --}}
                         <div class="col-md-12 col-lg-12" >
@@ -213,7 +194,11 @@
                                     <h5>Grand Total</h5>
                                     <div class="ml-auto h5">{{$finalamount}}</div>
                                 </div>
-                                 
+
+                                
+                            
+                            
+                                
                                 <hr> </div>
                         </div>
                     
@@ -271,7 +256,6 @@
                        //no need to put conditions for invalid data or when user hasnt selected any option as in fech we will only send choose district option only incase invalid data
 
                      
-
 
 });
   

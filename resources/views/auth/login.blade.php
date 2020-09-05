@@ -63,8 +63,17 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                                @if(url()->previous()=='http://127.0.0.1:8000/guestcheckout' || url()->previous()=='http://127.0.0.1:8000/cart')<!--so that when a user trys to first login he doesnt see checkout as guest checkout as guest is only seen when a guest is trying to checkout or a guest uses email that is already registered and moved to login page-->
-                                <a class="btn btn-primary" href="{{route('guestcheckout.index')}}">Check Out as Guest</a>
+                                @if(count(Cart::content())>0)
+                                <!--so that when a user trys to first login he doesnt see checkout as guest checkout as guest is only seen when a guest is trying to checkout or a guest uses email that is already registered and moved to login page-->
+                                @if(session()->has('paymentesewa'))
+                                <a class="btn btn-primary" href="{{route('checkoutes.index')}}">Check Out as Guest</a>
+                                @else
+
+                                    <a class="btn btn-primary" href="{{route('guestcheckout.index')}}">Check Out as Guest</a>
+                                @endif
+                                @endif
+                                @if (session()->has('cod'))
+                                <a>{{session('cod')}}</a>
                                 @endif
                             </div>
                         </div>

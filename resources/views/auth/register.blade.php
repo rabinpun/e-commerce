@@ -123,47 +123,7 @@
    
             })
         
-        // axios.post(this.action,{
-        //         'name':document.querySelector('#name').value,
-        //         'email':document.querySelector('#email').value,  // # is id and . is class
-        //         'password':document.querySelector('#password').value
-        //         'passwordconfirm':document.querySelector('#email').value,
-        //     })
-        //     .then(function (response) {
-        //         alert('yes');
-        //     })
-        //     .catch(function (error) {
-        //         //console.log(error.response.data.errors);
-        //         const errors= error.response.data.errors;
-        //         const firstItem = Object.keys(errors)[0];// cant just use firstitem = errors[0] coz the error an object of arrays {xyz:"asdasd",efe="asdassa"} Object.keys will convert object into array
-        //         //firstitemdom is the document object where we can attach the error message on the bottom              
-        //         const firstItemDom = document.querySelector(`#${firstItem}`);
-        //         const firstItemErrorMsg = errors[firstItem][0]; //for name errors[name][since there is only on error msg so 0 is the first msg]  for password errors[password][0]
-                
-        //         //scroll to the error msg
-        //         firstItemDom.scrollIntoView();//scroll to the error dom elemnt for beter user experience
-        //         window.scrollBy(0, -300); //due to the div position the scroll may not be on the exact position we want so we are offsettign the mis alignment
-
-        //         //remove the previous error msgs as refresh does for new input since there is no refresh and the html stays there and we remove it manually
-        //         const errorMsgs = document.querySelectorAll('.text-danger'); //since all the error msgs will have class="text-danger"
-        //         errorMsgs.forEach(function(element){
-        //             element.textContent='';//making the error msg text blank
-        //         })
-                
-        //         //show the error msg right below the input box dom element insertAdjacentHtml inserts html next to it
-        //         firstItemDom.insertAdjacentHTML('afterend',`<div class= "text-danger">${firstItemErrorMsg}</div>`)
-
-        //         //remove previous border highlight
-        //         const formControl = document.querySelectorAll('.form-control');
-        //         formControl.forEach(function(element){
-        //             element.classList.remove('border-danger');
-        //         })
-
-        //         //add border highlight for the error input field
-        //         firstItemDom.classList.add('border-danger');
-   
-            
-        //     })
+        
 
 })
 </script>

@@ -179,7 +179,22 @@
                     </div>
                     <hr> </div>
             </div>
-            <div class="col-12 d-flex shopping-box"><a href="{{route('checkout.index')}}" class="ml-auto btn hvr-hover">Checkout</a> </div>
+            <div class="col-12 d-flex shopping-box"><a href="{{route('checkoutcod.index')}}" class="ml-auto btn hvr-hover">Cash on Delivery</a>
+                
+                <form action="https://uat.esewa.com.np/epay/main" method="POST">
+                    <input value="{{$newtotal}}" name="tAmt" type="hidden">
+                    <input value="{{$newsubtotal}}" name="amt" type="hidden">
+                    <input value="{{$newtax}}" name="txAmt" type="hidden">
+                    <input value="0" name="psc" type="hidden">
+                    <input value="0" name="pdc" type="hidden">
+                    <input value="epay_payment" name="scd" type="hidden">
+                    <input value="{{rand(1,999999999999)}}" name="pid" type="hidden">
+                    <input value="http://127.0.0.1:8000/checkoutes" type="hidden" name="su">
+                    <input value="http://127.0.0.1:8000/failpay" type="hidden" name="fu">
+                    <a ><button style="margin-left:5rem;color:white;height:3.2rem;font-size:1.1rem" class="ml-auto btn hvr-hover" type="submit"> Pay with esewa</button></a>
+                    </form>
+                
+                <a href="{{route('checkout.index')}}" class="ml-auto btn hvr-hover">Checkout with Card</a> </div>
         </div>
         @else 
         <h2><strong> No items in Shopping Cart!</strong></h2>

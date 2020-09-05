@@ -4,27 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Order
- * @package App
- */
 class Order extends Model
 {
-    const PAYMENT_COMPLETED = 1;
-    const PAYMENT_PENDING = 0;
-
-    /**
-     * @var string
-     */
-    protected $table = 'orders';
-
-    /**
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
-    /**
-     * @var array
-     */
-    protected $fillable = ['transaction_id', 'amount', 'payment_status'];
+    protected $fillable= ['user_id','billing_firstname','billing_lastname','billing_username','billing_email','billing_phone','billing_address','billing_province','billing_district','billing_zip','billing_paymentmethod','billing_nameoncard','billing_outofvalley','error','billing_subtotal','billing_taxtotal','billing_total'];
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+    public function products(){
+        return $this->belongsToMany('App\Product')->withPivot('quantity');//with pivot allows us to access the quantity of the product at pivot table with the products method. we can get product's quantity by $product->pivot->quantity look in the read view of the custom order
+    }
 }

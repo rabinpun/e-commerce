@@ -59,6 +59,7 @@ Route::post('/checkouts','checkOutController@store')->name('checkout.store');
 Route::post('/checkoutcod','checkOutController@codstore')->name('checkoutcod.store');
 Route::post('/checkoutes','checkOutController@esstore')->name('checkoutes.store');
 
+Route::get('/mail','mailcontroller@index')->name('mail.index');
 
 //cant use /checkout for 2 posts or more so i renamed checkout for store to checkouts as it is redirected to fail or success if i rrename the address fetch to checkouts and i change province then i will be redirected to checkouts which is not wanted
 Route::post('/checkout','checkOutController@fetch')->name('address.fetch');

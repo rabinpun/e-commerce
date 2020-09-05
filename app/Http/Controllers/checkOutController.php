@@ -188,7 +188,7 @@ class checkOutController extends Controller
                     }
 
                 Cart::instance('default')->destroy();//clears the cart after successful payment
-                Mail::send(new OrderPlaced);
+                //Mail::send(new OrderPlaced);
                 return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
                 } catch (\Stripe\Exception\CardException $e) {//catching card error exception
                     $order=Order::create([

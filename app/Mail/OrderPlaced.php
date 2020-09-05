@@ -28,10 +28,10 @@ class OrderPlaced extends Mailable
      */
     public function build()
     {
-        return $this
+        return $this->from('simula@gmail.com','simula')
         ->to('rabin.pun@es.cloudfactory.com','Hiralal')
-        // ->bcc('simara@simar.com')
-        // ->subject('subject line for email')
+         ->bcc('simara@simar.com')
+         ->subject('subject line for email')
         ->view('emails.orders.placed');
     }
 }

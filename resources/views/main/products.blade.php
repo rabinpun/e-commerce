@@ -197,7 +197,13 @@
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                         </ul>
-                                                        <a class="cart" href="#">Add to Cart</a>
+                                                        <form action="{{route('cart.store')}}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" value="{{$product->id}}" name="id">
+                                                            <input type="hidden" value="{{$product->name}}" name="name">
+                                                            <input type="hidden" value={{$product->price}} name="price">
+                                                            <button class="btn hvr-hover " type="submit" style="color: white"> Add to Cart </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                                 <div class="why-text">

@@ -119,8 +119,8 @@ class checkOutController extends Controller
     {
         //dd($request->all());
         //this can be done with foreach but showing a bit variation
-        $contents=Cart::content()->map(function ($product){
-                return $product->model->slug.':'.$product->qty;
+        $cartcontent=Cart::content()->map(function ($product){
+                return $product->model->name.':'.$product->qty;
         })->values()->toJson();//converting to json format
         $finalamount=session()->get('finalamt')['newtotal'];  
         $sk=env('STRIPE_SECRET');    
@@ -141,7 +141,7 @@ class checkOutController extends Controller
                 'source' => $request->stripeToken,
                 'receipt_email'=>$request->email,
                 'metadata'=>[
-                    'contents'=>$contents,
+                    'contents'=>$cartcontent,
                     'quantity'=>Cart::instance('default')->count(),
                 ],
                 ]);
@@ -186,9 +186,9 @@ class checkOutController extends Controller
                             'quantity'=>$item->qty,
                         ]);
                     }
-
+                $cartcontents=$order->products;
                 Cart::instance('default')->destroy();//clears the cart after successful payment
-                //Mail::send(new OrderPlaced);
+                Mail::send(new OrderPlaced($cartcontents,$order));
                 return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
                 } catch (\Stripe\Exception\CardException $e) {//catching card error exception
                     $order=Order::create([

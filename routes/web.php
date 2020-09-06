@@ -1,5 +1,6 @@
 <?php
 
+use App\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +60,6 @@ Route::post('/checkouts','checkOutController@store')->name('checkout.store');
 Route::post('/checkoutcod','checkOutController@codstore')->name('checkoutcod.store');
 Route::post('/checkoutes','checkOutController@esstore')->name('checkoutes.store');
 
-Route::get('/mail','mailcontroller@index')->name('mail.index');
 
 //cant use /checkout for 2 posts or more so i renamed checkout for store to checkouts as it is redirected to fail or success if i rrename the address fetch to checkouts and i change province then i will be redirected to checkouts which is not wanted
 Route::post('/checkout','checkOutController@fetch')->name('address.fetch');
@@ -90,3 +90,14 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::view('/home', 'admin.admin_loginpage')->name('home');
+
+
+//to check mail template we can view the mail template locally
+Route::get('/mail',function(){
+    //$cartcontent="Laptop-1:3,Tv-4:7,Mobile-2:5,Laptop-5:1";//creating a random cartcontent
+    $order= Order::find(9);//finding a order from order table can be any value just for testing
+    //App\Order::find(8) is also correct
+    //check that the order id exist i used 1 but there was no order with that id so i view the database and used a existing order 8
+    $cartcontents=$order->products;
+    return new App\Mail\OrderPlaced($cartcontents,$order);  // new App\Mail\Orderplaced = Mail::(new OrderPlaced($cartcontents,$order)); but we dont need to define the fasade
+});

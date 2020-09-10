@@ -24,8 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // if(config('app.env') === 'production') {
-        //     URL::forceScheme('https');
-        // }
+        //this will use the application to use https instead of http when we are in production we should set APP_ENV in .env in production mode to production
+        if(config('app.env') === 'production') {//basically if app_env is not local https will be enforced
+            URL::forceScheme('https');
+        }
     }
 }

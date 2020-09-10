@@ -77,5 +77,47 @@ class ProductsController extends Controller
             'mal_products'=>$mal_products
             ]);
     }
+    public function search(Request $request)
+    {
+       // dd(request()->search);
+            if(request()->search){
+                $request->validate([
+                    'search'=>'required|min:3'
+                ]);
+                $search=request()->search;
+                //$search=$request->input('query');if you use name as query instead of search
+                //search=request()->query  wont work but the above will work
+                //$search=$request->input('search');//same thing
+                //$products=Product::where('name','like',"%$search%");//like is used when we are searching a pattern of string instead of exact string it is used with wild card operators % % is a wild card character where it searches any string with the given string %bl% will find bl,black,blue,bloom etc
+                //this method is less accourate like if we search for 'is black' if there is a string 'is a black' the result wont show this as it has to be continuous
+                //the following method does a full text method so the arrangement and place ment of string words wont matter better also comes in a package so easy to user
+                $products = Product::search($search);
+                
+                $categoryName='Search Result';
+                $countno=$products->count();
+                $categories=Category::all();
+            }
+            
+            
+            if(request()->sort == 'high_low'){//if selected high to low
+                $products = $products->orderBy('price','desc')->paginate(9);//we cant use collection methods like all(),get() when using pagination since pagination is query builder so only take(),where() etc can be used together with pagination
+            }elseif(request()->sort == 'low_high'){//if selected low to high
+                $products = $products->orderBy('price')->paginate(9);
+            }
+            else{
+                $products=$products->paginate(9);//pagination for no sort request or category request. ie when product.index requested
+            }
+
+            $totalelectronicscount=Product::all()->count();
+            
+            return view('main.search')->with([
+                'products'=>$products,
+                'categories'=>$categories,
+                'categoryName'=>$categoryName,
+                'countno'=>$countno,
+                'totalcount'=>$totalelectronicscount
+                ]);
+        
+    }
 
 }

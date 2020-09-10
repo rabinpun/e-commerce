@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5df5893a7c2a40b64bf66c013970374",
+    "content-hash": "ade83033923c13eeac26fcda0d355249",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1248,16 +1248,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.19",
+            "version": "2.1.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c"
+                "reference": "f46887bc48db66c7f38f668eb7d6ae54583617ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/840d5603eb84cc81a6a0382adac3293e57c1c64c",
-                "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/f46887bc48db66c7f38f668eb7d6ae54583617ff",
+                "reference": "f46887bc48db66c7f38f668eb7d6ae54583617ff",
                 "shasum": ""
             },
             "require": {
@@ -1302,7 +1302,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2020-08-08T21:28:19+00:00"
+            "time": "2020-09-06T13:44:32+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -1625,22 +1625,22 @@
         },
         {
             "name": "hardevine/shoppingcart",
-            "version": "2.8.2",
+            "version": "2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hardevine/LaravelShoppingcart.git",
-                "reference": "08f7e198452f27a1eb75a144b0b34ec1f4efae03"
+                "reference": "2fc6eff895ae6d94978125f6bc65aceadc4873c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hardevine/LaravelShoppingcart/zipball/08f7e198452f27a1eb75a144b0b34ec1f4efae03",
-                "reference": "08f7e198452f27a1eb75a144b0b34ec1f4efae03",
+                "url": "https://api.github.com/repos/hardevine/LaravelShoppingcart/zipball/2fc6eff895ae6d94978125f6bc65aceadc4873c5",
+                "reference": "2fc6eff895ae6d94978125f6bc65aceadc4873c5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/events": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7",
-                "illuminate/session": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7"
+                "illuminate/events": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7|^8",
+                "illuminate/session": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7|^8",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6|^7|^8"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9.0",
@@ -1681,7 +1681,7 @@
                 "laravel",
                 "shoppingcart"
             ],
-            "time": "2020-07-05T02:23:00+00:00"
+            "time": "2020-09-06T07:46:29+00:00"
         },
         {
             "name": "intervention/image",
@@ -2657,16 +2657,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.39.0",
+            "version": "2.39.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "0a41ea7f7fedacf307b7a339800e10356a042918"
+                "reference": "7af467873250583cc967a59ee9df29fabab193c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/0a41ea7f7fedacf307b7a339800e10356a042918",
-                "reference": "0a41ea7f7fedacf307b7a339800e10356a042918",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7af467873250583cc967a59ee9df29fabab193c1",
+                "reference": "7af467873250583cc967a59ee9df29fabab193c1",
                 "shasum": ""
             },
             "require": {
@@ -2679,7 +2679,7 @@
                 "doctrine/orm": "^2.7",
                 "friendsofphp/php-cs-fixer": "^2.14 || ^3.0",
                 "kylekatarnls/multi-tester": "^2.0",
-                "phpmd/phpmd": "^2.8",
+                "phpmd/phpmd": "^2.9",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.35",
                 "phpunit/phpunit": "^7.5 || ^8.0",
@@ -2742,7 +2742,53 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-24T12:35:58+00:00"
+            "time": "2020-09-04T13:11:37+00:00"
+        },
+        {
+            "name": "nicolaslopezj/searchable",
+            "version": "1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolaslopezj/searchable.git",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolaslopezj/searchable/zipball/b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "illuminate/database": ">=4.2",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nicolaslopezj\\Searchable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Lopez",
+                    "email": "nicolaslopezj@me.com"
+                }
+            ],
+            "description": "Eloquent model search trait.",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "model",
+                "search",
+                "searchable"
+            ],
+            "time": "2020-03-30T12:30:18+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2880,16 +2926,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.5.6",
+            "version": "3.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "e8d34df855b0a0549a300cb8cb4db472556e8aa9"
+                "reference": "4531e53afe2fc660403e76fb7644e95998bff7bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/e8d34df855b0a0549a300cb8cb4db472556e8aa9",
-                "reference": "e8d34df855b0a0549a300cb8cb4db472556e8aa9",
+                "url": "https://api.github.com/repos/opis/closure/zipball/4531e53afe2fc660403e76fb7644e95998bff7bf",
+                "reference": "4531e53afe2fc660403e76fb7644e95998bff7bf",
                 "shasum": ""
             },
             "require": {
@@ -2937,7 +2983,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2020-08-11T08:46:50+00:00"
+            "time": "2020-09-06T17:02:15+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2986,16 +3032,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.9.1",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "64a18cc891957e05d91910b3c717d6bd11fbede9"
+                "reference": "88ff14cad4a0db68b343260fa7ac3f1599703660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/64a18cc891957e05d91910b3c717d6bd11fbede9",
-                "reference": "64a18cc891957e05d91910b3c717d6bd11fbede9",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/88ff14cad4a0db68b343260fa7ac3f1599703660",
+                "reference": "88ff14cad4a0db68b343260fa7ac3f1599703660",
                 "shasum": ""
             },
             "require": {
@@ -3047,7 +3093,7 @@
                 "message",
                 "psr7"
             ],
-            "time": "2020-07-13T15:44:45+00:00"
+            "time": "2020-09-04T08:41:23+00:00"
         },
         {
             "name": "php-http/guzzle6-adapter",
@@ -4073,16 +4119,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v7.50.0",
+            "version": "v7.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "0195e3dcc34123df9a441069dbf08db17c3b025d"
+                "reference": "879a3545126ebc77218c53d2055572b7e473fbcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0195e3dcc34123df9a441069dbf08db17c3b025d",
-                "reference": "0195e3dcc34123df9a441069dbf08db17c3b025d",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/879a3545126ebc77218c53d2055572b7e473fbcf",
+                "reference": "879a3545126ebc77218c53d2055572b7e473fbcf",
                 "shasum": ""
             },
             "require": {
@@ -4126,7 +4172,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2020-08-28T20:17:35+00:00"
+            "time": "2020-09-02T21:04:02+00:00"
         },
         {
             "name": "sudiptpa/omnipay-esewa",

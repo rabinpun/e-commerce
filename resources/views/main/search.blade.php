@@ -171,8 +171,10 @@
                                    
                                     
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{route('products.index',['category'=>request()->category,'sort'=>'low_high'])}}">Cheapest</a>
-                                    <a class="dropdown-item" href="{{route('products.index',['category'=>request()->category,'sort'=>'high_low'])}}">Most Expensive</a>
+
+                                    {{-- sending search = search value so that the search method in productscontroller can make the product list of search as it will receive search with the request and sort it out and send us again --}}
+                                    <a class="dropdown-item" href="{{route('search',['search'=>request()->search,'sort'=>'low_high'])}}">Cheapest</a>  
+                                    <a class="dropdown-item" href="{{route('search',['search'=>request()->search,'sort'=>'high_low'])}}">Most Expensive</a>
                                   </div>
                                   </div>
                                  
@@ -191,7 +193,8 @@
 
                         <div class="row product-categorie-box">
                             <div class="tab-content">
-                            <h1><strong>{{$categoryName}}: Showing  {{count($products)}} products from {{$countno}} products.</strong></h1>
+                            <h1><strong>{{$categoryName}} for: {{request()->search}}</strong></h1><br>
+                             <h4> Showing  {{count($products)}} products from {{$countno}} products.</h4>
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row">
                                         @forelse ($products as $product)

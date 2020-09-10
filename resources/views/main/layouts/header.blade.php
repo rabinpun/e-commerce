@@ -206,9 +206,13 @@
     <div class="top-search">
         <div class="container">
             <div class="input-group">
+                
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search">
+                <form action="{{route('search')}}" method="GET">
+                     <input type="text" class="form-control" name="search" placeholder="{{request()->search}}"> {{--if you put request()->search without quotes string with space will print only the words before space 'ram is good' will be 'ram' only --}}
+                </form>
                 <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            
             </div>
         </div>
     </div>

@@ -101,3 +101,8 @@ Route::get('/mail',function(){
     $cartcontents=$order->products;
     return new App\Mail\OrderPlaced($cartcontents,$order);  // new App\Mail\Orderplaced = Mail::(new OrderPlaced($cartcontents,$order)); but we dont need to define the fasade
 });
+
+
+//search
+
+Route::get('/search','ProductsController@search')->name('search');

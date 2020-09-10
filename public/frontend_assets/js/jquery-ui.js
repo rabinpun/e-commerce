@@ -1,5 +1,5 @@
 /*! jQuery UI - v1.11.4 - 2015-12-03
-* http://jqueryui.com
+* https://jqueryui.com
 * Includes: core.js, widget.js, mouse.js, button.js, slider.js
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
 

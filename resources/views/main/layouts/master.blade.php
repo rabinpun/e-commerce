@@ -54,9 +54,9 @@
 
 <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
     <!-- ALL JS FILES -->
-{{-- <script src="{{asset('frontend_assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('frontend_assets/js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset('frontend_assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('frontend_assets/js/bootstrap.min.js')}}"></script> --}}
+    <script src="{{asset('frontend_assets/js/bootstrap.min.js')}}"></script>
 
     <!-- JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

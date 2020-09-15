@@ -1,0 +1,223 @@
+@import 'pages/login';
+@import 'pages/loginresponsive';
+p{
+    color:black
+}
+$color:#d33b33;
+$bcolor:#212529;
+.login-container{
+    margin: 50px auto  ;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 100px;
+}
+.login-left-title{
+    font-size: 4vh;
+    font-weight: bold;
+}
+.login-right-title{
+    font-size: 4vh;
+    font-weight: bold;
+}
+.spacer{
+    height:40px;
+}
+.spacer-small{
+    height:20px;
+}
+.login-btn-container{
+    display:flex;
+    justify-content: space-between;
+}
+.input{
+    border:1.5px solid $color;
+    font-size: 1.2rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+}
+.login-btn{
+    background-color:$color ;
+    font-size: 1.2rem;
+    width:7rem;
+    border-radius: 7px;
+    
+    border:1px solid black;
+    &:hover{
+        filter: brightness(0.9);
+    }
+}
+.login-btnreset{
+    background-color:$color ;
+    font-size: 1.2rem;
+    width:20rem;
+    border-radius: 7px;
+    
+    border:1px solid black;
+    &:hover{
+        filter: brightness(0.9);
+    }
+}
+.login-btng{
+    background-color:$color ;
+    font-size: 1.2rem;
+    width:auto;
+    border-radius: 7px;
+    
+    border:1px solid black;
+    &:hover{
+        filter: brightness(0.9);
+    }
+}
+.login-checkbox{
+    font-size: 1.2rem;
+}
+.forgot-pass{
+    padding:1rem;
+    font-size: 1.2rem;
+    color: $color;
+    
+    border:1px solid $color;
+    border-radius: 5px;
+    &:hover{
+        color: rgb(0, 0, 0) ;
+        border:1px solid black;
+    }
+
+}
+.login-right{
+    border-left: 1px solid $color;
+    padding-left: 5rem;
+}
+
+.hr-lr{
+    display: none;//this line will appear for mbl view
+}
+.icon-login{
+    position: absolute; transform: scale(2);margin-top:15px;
+    margin-left:-2.5rem;
+    color: black;
+}
+.icon-bg{
+    position: absolute; transform: scale(2);margin-top:-15px;
+    background-color: $color;
+height: 0.8rem;
+width: 0.8rem;
+z-index: -1;
+border-radius: 2px;
+   
+}
+
+
+
+    .center-container{
+        margin: 100px auto;
+        text-align: center;
+    }
+    .input-center{
+        border:1.5px solid $color;
+        font-size: 1.2rem;
+        width: 30%;
+        margin-bottom: 2rem;
+        border-radius: 5px;
+    }
+    
+    .error-msg{
+        color:red;
+       
+        position: absolute;
+        margin-top:-2rem;
+        margin-left:-10rem;
+    }
+
+    .blog-container
+    {
+        width:80vw;
+        margin:100px auto;
+        justify-content: left;
+    }
+    .blog-image{
+       // width:70vw;
+    }
+    .blog-title{
+        font-size:2.5rem;
+        color: black;
+        font-weight: bold;
+    }
+    .blog-body{
+        font-size:1.2rem;
+        color: black;
+        margin-top:7rem;
+        margin-left:7rem;
+        width:20vw;
+    }
+    .options-blog{
+        
+        top: 0px;
+        left: 0px;
+        top: 50%;
+        transform: translate(0%,0%);
+    }
+    .options-blog-active{
+        align-items: center;
+        width:3rem;
+        background-color: $color;
+        transition: .25s ease-in-out;
+        &:hover{
+            background-color: $bcolor;
+        }
+    }
+    .options-blog-inactive{
+        align-items: center;
+        width:3rem;
+        background-color: $bcolor;
+        transition: .25s ease-in-out;
+        &:hover{
+            background-color: $color;
+        }
+    }
+    .options-blog li i{
+        transform: scale(1.5);
+        color: white;
+        margin-left: 1rem;
+    }
+    
+
+
+
+    //put media always at last coz the internal div must be above defined before here in media
+    @media only screen and (max-width: 768px){
+
+        .login-container{
+            margin: 40px auto  ;
+            margin-left:3rem;
+            grid-template-columns: 1fr;
+            grid-gap: 10px;
+        }
+        .login-right{
+            border-top: 1px solid $color;//
+            border-left: none;
+            margin-left: 10px;
+            padding-left: 0rem;
+            
+        }
+        .login-right-title{
+            margin-top: 3rem;
+            font-size: 4vh;
+            font-weight: bold;
+        }
+    
+        .input-box{
+            margin:0;
+        }
+        .input-center{
+            border:1.5px solid $color;
+            font-size: 1.2rem;
+            
+            margin-bottom: 2rem;
+            border-radius: 5px;
+            width:80%
+        }
+        
+        }
+

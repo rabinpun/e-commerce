@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Coupon;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Jobs\UpdateCoupon;
+//use Gloudemans\Shoppingcart\Facades\Cart;//we dont need this we have this in the job UpdateCoupon
 
 class CouponsController extends Controller
 {
@@ -22,10 +23,14 @@ class CouponsController extends Controller
         if (!$coupon) {
             return redirect()->route('cart.index')->witherrors('Coupon is incorrect!!');
         }
-        session()->put('usedcoupon',[
-            'name'=>$coupon->code,
-            'discount'=>$coupon->discount(Cart::subtotal())
-        ]);
+
+        //we are putting it in session so we can use this information like when sending the discount to the checkout page and getting the coupon information in the evnet listner
+        // session()->put('usedcoupon',[
+        //     'name'=>$coupon->code,
+        //     'discount'=>$coupon->discount(Cart::subtotal())
+        // ]);
+
+        dispatch_now(new UpdateCoupon($coupon));
         
           
 

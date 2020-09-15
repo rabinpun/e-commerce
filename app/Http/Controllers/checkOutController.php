@@ -10,6 +10,7 @@ use App\Http\Requests\CheckoutRequest;
 use App\Mail\OrderPlaced;
 use App\Order;
 use App\Order_Product;
+use App\Product;
 use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\Session\Session;
@@ -117,6 +118,11 @@ class checkOutController extends Controller
      */
     public function store(CheckoutRequest $request)
     {
+       
+        if($this->productNotAvailable()){
+
+            return redirect()->route('cart.index')->withErrors('There is only '.$this->productNotAvailable()->quantity.' '.$this->productNotAvailable()->name.' in stock. Someone may have bought the same item.');
+        }
         //dd($request->all());
         //this can be done with foreach but showing a bit variation
         $cartcontent=Cart::content()->map(function ($product){
@@ -156,61 +162,15 @@ class checkOutController extends Controller
                     //for some unknown reason turnery operator wasnt working
                     //P.S both didnt work coz the user_id was unfillable in order model
                     //insert into order table
-                $order=Order::create([
-                    'user_id'=> auth()->user() ? auth()->user()->id: null,
-                    'billing_firstname'=>$request->firstName,
-                    'billing_lastname'=>$request->lastName,
-                    'billing_username'=>$request->username,
-                    'billing_email'=>$request->email,
-                    'billing_phone'=>$request->phone,
-                    'billing_address'=>$request->address,
-                    'billing_province'=>$request->province,
-                    'billing_district'=>$request->district,
-                    'billing_zip'=>$request->postalcode,
-                    'billing_paymentmethod'=>$request->paymentmethod,
-                    'billing_nameoncard'=>$request->cardName,
-                    'billing_outofvalley'=>$request->outofvalley,
-                    'error'=>null,
-                    'billing_subtotal'=>session()->get('finalamt')['newsubtotal'],
-                    'billing_taxtotal'=>session()->get('finalamt')['newtax'] ,
-                    'billing_total'=>session()->get('finalamt')['newtotal'] ,
-                     
-                    ]);
-
-                    //insert into order_product table
-
-                    foreach(Cart::content() as $item){
-                        Order_Product::create([
-                            'order_id'=>$order->id,
-                            'product_id'=>$item->model->id,
-                            'quantity'=>$item->qty,
-                        ]);
-                    }
-                $cartcontents=$order->products;
+               
+                $error=null;
+                $this->addToOrdersTable($request,$error);//from the method we created at bottom
+                $this->decreaseStockQuantity();//decrease the amount in stock
                 Cart::instance('default')->destroy();//clears the cart after successful payment
-                Mail::send(new OrderPlaced($cartcontents,$order));
+                session()->forget('usedcoupon');
                 return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
                 } catch (\Stripe\Exception\CardException $e) {//catching card error exception
-                    $order=Order::create([
-                        'user_id'=> auth()->user() ? auth()->user()->id: null,
-                        'billing_firstname'=>$request->firstName,
-                        'billing_lastname'=>$request->lastName,
-                        'billing_username'=>$request->username,
-                        'billing_email'=>$request->email,
-                        'billing_phone'=>$request->phone,
-                        'billing_address'=>$request->address,
-                        'billing_province'=>$request->province,
-                        'billing_district'=>$request->district,
-                        'billing_zip'=>$request->postalcode,
-                        'billing_paymentmethod'=>$request->paymentmethod,
-                        'billing_nameoncard'=>$request->cardName,
-                        'billing_outofvalley'=>$request->outofvalley,
-                        'error'=>$e->getMessage(),//stores the error message
-                        'billing_subtotal'=>session()->get('finalamt')['newsubtotal'],
-                        'billing_taxtotal'=>session()->get('finalamt')['newtax'] ,
-                        'billing_total'=>session()->get('finalamt')['newtotal'] ,
-                         
-                        ]);
+                    $this->addToOrdersTable($request,$e->getMessage());
                     return back()->with('cardfail',$e->getMessage());//outputs the error message
                 }
     
@@ -223,54 +183,16 @@ class checkOutController extends Controller
      */
     public function esstore(CheckoutRequest $request)
     {
-        //dd($request->all());
-        
-                
-        
-                // if(auth()->user())
-                //     {
-                //         $iduser=auth()->user()->id;
-                //     }
-                //     else
-                //     {
-                //         $iduser=null;
-                //     }
-                    //for some unknown reason turnery operator wasnt working
-                    //P.S both didnt work coz the user_id was unfillable in order model
-                    //insert into order table
-                $order=Order::create([
-                    'user_id'=> auth()->user() ? auth()->user()->id: null,
-                    'billing_firstname'=>$request->firstName,
-                    'billing_lastname'=>$request->lastName,
-                    'billing_username'=>$request->username,
-                    'billing_email'=>$request->email,
-                    'billing_phone'=>$request->phone,
-                    'billing_address'=>$request->address,
-                    'billing_province'=>$request->province,
-                    'billing_district'=>$request->district,
-                    'billing_zip'=>$request->postalcode,
-                    'billing_paymentmethod'=>$request->paymentmethod,
-                    'billing_nameoncard'=>$request->cardName,
-                    'billing_outofvalley'=>$request->outofvalley,
-                    'error'=>null,
-                    'billing_subtotal'=>session()->get('finalamt')['newsubtotal'],
-                    'billing_taxtotal'=>session()->get('finalamt')['newtax'] ,
-                    'billing_total'=>session()->get('finalamt')['newtotal'] ,
-                     
-                    ]);
+        if($this->productNotAvailable()){
 
-                    //insert into order_product table
-
-                    foreach(Cart::content() as $item){
-                        Order_Product::create([
-                            'order_id'=>$order->id,
-                            'product_id'=>$item->model->id,
-                            'quantity'=>$item->qty,
-                        ]);
-                    }
-
-                Cart::instance('default')->destroy();//clears the cart after successful payment
-                return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
+            return redirect()->route('cart.index')->withErrors('There is not enough '.$this->productNotAvailable().' in stock. Someone may have bought the same item.');
+        }
+        $error=null;
+        $this->addToOrdersTable($request,$error);
+        $this->decreaseStockQuantity();
+        Cart::instance('default')->destroy();//clears the cart after successful payment
+        session()->forget('usedcoupon');
+        return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
                 
             }
 
@@ -283,38 +205,16 @@ class checkOutController extends Controller
      */
             public function codstore(Request $request)
     {
-        $order=Order::create([
-            'user_id'=> auth()->user() ? auth()->user()->id: null,
-            'billing_firstname'=>$request->firstName,
-            'billing_lastname'=>$request->lastName,
-            'billing_username'=>$request->username,
-            'billing_email'=>$request->email,
-            'billing_phone'=>$request->phone,
-            'billing_address'=>$request->address,
-            'billing_province'=>$request->province,
-            'billing_district'=>$request->district,
-            'billing_zip'=>$request->postalcode,
-            'billing_paymentmethod'=>$request->paymentmethod,
-            'billing_nameoncard'=>$request->cardName,
-            'billing_outofvalley'=>$request->outofvalley,
-            'error'=>null,
-            'billing_subtotal'=>session()->get('finalamt')['newsubtotal'],
-            'billing_taxtotal'=>session()->get('finalamt')['newtax'] ,
-            'billing_total'=>session()->get('finalamt')['newtotal'] ,
-             
-            ]);
+        if($this->productNotAvailable()){
 
-            //insert into order_product table
-
-            foreach(Cart::content() as $item){
-                Order_Product::create([
-                    'order_id'=>$order->id,
-                    'product_id'=>$item->model->id,
-                    'quantity'=>$item->qty,
-                ]);
-            }
+            return redirect()->route('cart.index')->withErrors('There is not enough '.$this->productNotAvailable().' in stock. Someone may have bought the same item.');
+        }
+        $error=null;
+        $this->addToOrdersTable($request,$error);
+        $this->decreaseStockQuantity();
 
         Cart::instance('default')->destroy();//clears the cart after successful payment
+        session()->forget('usedcoupon');
         return redirect()->route('confirmation.index')->with('success_message','Card transaction successful!!');
         
     
@@ -382,6 +282,58 @@ class checkOutController extends Controller
       $output .= '<option value="'.$district->$dependent.'">'.$district->$dependent.'</option>';
      }
      echo $output;
+    }
+    protected function addToOrdersTable($request,$error){
+        $order=Order::create([
+            'user_id'=> auth()->user() ? auth()->user()->id: null,
+            'billing_firstname'=>$request->firstName,
+            'billing_lastname'=>$request->lastName,
+            'billing_username'=>$request->username,
+            'billing_email'=>$request->email,
+            'billing_phone'=>$request->phone,
+            'billing_address'=>$request->address,
+            'billing_province'=>$request->province,
+            'billing_district'=>$request->district,
+            'billing_zip'=>$request->postalcode,
+            'billing_paymentmethod'=>$request->paymentmethod,
+            'billing_nameoncard'=>$request->cardName,
+            'billing_outofvalley'=>$request->outofvalley,
+            'error'=>$error,
+            'billing_subtotal'=>session()->get('finalamt')['newsubtotal'],
+            'billing_taxtotal'=>session()->get('finalamt')['newtax'] ,
+            'billing_total'=>session()->get('finalamt')['newtotal'] ,
+             
+            ]);
+
+            //insert into order_product table
+
+            foreach(Cart::content() as $item){
+                Order_Product::create([
+                    'order_id'=>$order->id,
+                    'product_id'=>$item->model->id,
+                    'quantity'=>$item->qty,
+                ]);
+            }
+            $cartcontents=$order->products;
+            if(!($error)){
+                Mail::send(new OrderPlaced($cartcontents,$order));
+            }
+           
+    }
+    protected function decreaseStockQuantity(){
+        foreach(Cart::content() as $item){
+            $product=Product::find($item->model->id);
+            $product->update(['quantity'=>$product->quantity-$item->qty]);
+        }
+    }
+    protected function productNotAvailable(){
+        foreach(Cart::content() as $item){
+            if($item->model->quantity<$item->qty){
+             
+                return $item->model;//returning the name of the product so we can say this product is out of stock
+            }
+        }
+        return false;
     }
     
 }

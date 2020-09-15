@@ -43,15 +43,22 @@
 						<option>€ EUR</option>
 					</select>
                     </div>
-                    <div class="right-phone-box">
-                        <p>Call US :- <a href="#"> +11 900 800 100</a></p>
-                    </div>
-                    <div class="our-link">
+                    <div class="our-link " style="margin-right:0">
                         <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Our location</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                          
+                            @auth
+                            <li><a href="/home">My Account</a></li>
+                            @endauth
+                            <li><p style="color: white">Call US : <a href="tel:9845902604">9845902604</a></p></li>
+                            @guest
+                            <li><a href="/login">Log In</a></li>
+                            <li><a href="/register">Register</a></li>
+                            @endguest
+                            @auth
+                            
+                        <li><form action="{{route('logout')}}" method="POST">@csrf<button style="border:none;font-size:1.1rem;background-color: black;color:white" type="submit">Log Out</button></form></li>
+                            
+                            
+                            @endauth
                            
                             
                         </ul>
@@ -174,24 +181,16 @@
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <li class="cart-box">
                     <ul class="cart-list">
+                        @foreach(Cart::content() as $product)
                         <li>
-                            <a href="#" class="photo"><img src="{{asset('frontend_assets/images/img-pro-01.jpg')}}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
+                            <a href="#" class="photo"><img src="{{asset('storage/'.$product->model->image)}}" class="cart-thumb" alt="" /></a>
+                            <h6><a href="#">{{$product->model->name}} </a></h6>
+                            <p>{{$product->qty}}x - <span class="price">Rs {{$product->model->price}}</span></p>
                         </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{{asset('frontend_assets/images/img-pro-02.jpg')}}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{{asset('frontend_assets/images/img-pro-03.jpg')}}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
-                        </li>
+                        @endforeach
                         <li class="total">
                             <a href="{{route('cart.index')}}" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
+                        <span class="float-right"><strong>Total</strong>: Rs {{Cart::subtotal()}}</span>
                         </li>
                     </ul>
                 </li>

@@ -68,10 +68,11 @@
                                 <td class="price-pr">
                                     <p>Rs {{$product->model->price}}</p>
                                 </td>
-                            <td class="quantity-box"><select class="quantity" item-id="{{$product->rowId}}">
+                            <td class="quantity-box"><select class="quantity" item-quantity="{{$product->model->quantity}}" item-id="{{$product->rowId}}">
                                 @for ($i = 1; $i <= 5; $i++)
                             <option {{ $product->qty == $i ? 'selected':''}}>{{$i}}</option>    
-                                @endfor       
+                                @endfor   
+                                 
                     
                                 
 
@@ -286,8 +287,10 @@
         Array.from(classname).forEach(function(element){//Array converts the class elements into array
                 element.addEventListener('change',function(){//adding eventlistener on the each element ie the options for change
                     const id = element.getAttribute('item-id')//gets the value of the option selected form the attribute that was added in the quantity select
+                    const item_quantity = element.getAttribute('item-quantity')
                     axios.patch(`/cart/${id}`, {  //using axios to update the quantity of product Route::patch('/cart/{product}','CartController@update')->name('cart.update');
-                       quantity: this.value   //gets the value of the option selected from the constant id
+                       quantity: this.value,   //here this is the element gets the value of the option selected from the constant id
+                       item_quantity:item_quantity
                     })
                     .then(function (response) {
                         window.location.href = '{{route('cart.index')}}'  //loads cart.index page since we have used response()->json() for both sucess and fail condition both will come to this 

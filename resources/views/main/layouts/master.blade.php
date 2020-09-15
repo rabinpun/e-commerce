@@ -30,6 +30,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <!-- Site CSS -->
     <link rel="stylesheet" href="{{asset('frontend_assets/css/style.css')}}">
+
+    {{-- css from saas compiled --}}
+    <link rel="stylesheet" href="{{asset('saas/app.css')}}">
+
+
+
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{asset('frontend_assets/css/responsive.css')}}">
     <!-- Custom CSS -->

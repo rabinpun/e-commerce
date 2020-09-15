@@ -32,7 +32,7 @@ Route::get('/product/{product}','ProductsController@show')->name('products.show'
 //cart 
 Route::get('/cart','CartController@index')->name('cart.index');
 Route::post('/cart','CartController@store')->name('cart.store');
-Route::patch('/cart/{product}','CartController@update')->name('cart.update');
+Route::patch('/cart/{id}','CartController@update')->name('cart.update');
 Route::delete('/cart/saveforlater/{product}','CartController@saveforlater')->name('cart.saveforlater');
 Route::delete('/cart/{product}','CartController@destroy')->name('cart.delete');
 
@@ -45,6 +45,13 @@ Route::view('/checkout','main.checkout');
 Route::view('/thankyou','main.thankyou');
 Route::view('/successpay','main.success');
 Route::view('/failpay','main.fail');
+
+//wishlist
+Route::get('/wishlist','WishListController@index')->name('wishlist.index');//since we are using get so different route url should be used otherwise there will be routing error
+Route::get('/wishlist/store/{product}','WishListController@store')->name('wishlist.store');//storing the wishlist without form unlike the cart store with {{route('wishlist.store',$product)}} and accessing that product in store public function store($request, Product $product)
+Route::delete('/wishlist/{id}','WishListController@destroy')->name('wishlist.delete');
+
+
 
 
 
@@ -87,7 +94,7 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Auth::routes();
+Auth::routes(['verify'=>true]);//verification on
 
 Route::view('/home', 'admin.admin_loginpage')->name('home');
 
@@ -106,3 +113,17 @@ Route::get('/mail',function(){
 //search
 
 Route::get('/search','ProductsController@search')->name('search');
+
+//userdashboard
+Route::get('/home','UserDashBoardController@index')->name('userdashboard.index');
+
+//blogs
+Route::get('/blogs','BlogController@index')->name('blogs.index');
+Route::get('/blogs/{id}','BlogController@show')->name('blog.show');
+Route::get('/likedblogs','BlogController@likedblogs')->name('blogs.liked');
+
+
+
+
+//blog interact
+Route::get('/blogs/like/{id}','BlogController@like')->name('blog.like');

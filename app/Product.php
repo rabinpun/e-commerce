@@ -30,6 +30,8 @@ class Product extends Model
         ],
     ];
 
+    protected $fillable= ['quantity'];
+
     function previousPrice(){
         return ($this->price + $this->price*0.2); //showing the previous undiscounted price
     }
@@ -40,5 +42,8 @@ class Product extends Model
     }
     public function categories(){//this is a method which is called in seeder to associate or attach category to products
         return $this->belongsToMany('App\Category');//making one to many relation with the categories table since we are adding a feature such that one product can have many categories ideally it should be belongsTo
+    }
+    public function users(){
+        return $this->belongsToMany('App\User','wishlist_pivots');
     }
 }

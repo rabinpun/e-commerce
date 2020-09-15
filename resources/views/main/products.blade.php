@@ -178,12 +178,25 @@
                                  
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">
+                                
                                 <ul class="nav nav-tabs ml-auto">
                                     <li>
-                                        <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
+                                        <a 
+                                        @if($view==0) 
+                                        class="nav-link active"
+                                        @else
+                                        class="nav-link"
+                                        @endif
+                                         href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
                                     </li>
                                     <li>
-                                        <a class="nav-link" href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
+                                    <a 
+                                    @if($view==1) 
+                                    class="nav-link active"
+                                    @else
+                                    class="nav-link"
+                                    @endif
+                                    href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -192,29 +205,47 @@
                         <div class="row product-categorie-box">
                             <div class="tab-content">
                             <h1><strong>{{$categoryName}}: Showing  {{count($products)}} products from {{$countno}} products.</strong></h1>
-                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                <div role="tabpanel" 
+                                @if($view==0) 
+                                class="tab-pane fade show active" 
+                                @else
+                                class="tab-pane fade" 
+                                @endif
+                                id="grid-view">
                                     <div class="row">
                                         @forelse ($products as $product)
                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                             <div class="products-single fix">
                                                 <div class="box-img-hover">
                                                     <div class="type-lb">
-                                                        <p class="sale">Sale</p>
+                                                        <p class="sale">
+                                                        
+                                                            @if($product->quantity>5)
+                                                                In Stock
+                                                            @elseif($product->quantity<5&&$product->quantity>0)
+                                                                Low in Stock
+                                                            @else
+                                                                Out of Stock
+                                                            @endif
+                                                        
+                                                        </p>
                                                     </div>
                                                 <img src="{{ asset('storage/'.$product->image) }}" class="img-fluid" alt="Image" >
-                                                    <div class="mask-icon" >
+                                                    <div class="mask-icon"  >
                                                         <ul>
                                                             <li><a href="{{route('products.show',$product->slug)}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                        </ul>
-                                                        <form action="{{route('cart.store')}}" method="POST">
+                                                            {{-- <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li> --}}
+                                                        {{-- <li><form action="{{route('wishlist.store')}}" method="POST">@csrf <input type="hidden" name="id" value="{{$product->id}}"> <input type="hidden" name="name" value="{{$product->name}}"> <input type="hidden" name="price" value="{{$product->price}}"> <a href="" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"><button type="submit">ss</button></i></a></form></li> --}}
+                                                             <li> <a href="{{route('wishlist.store',$product)}}" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                            </ul>
+                                                        <li><form action="{{route('cart.store')}}" method="POST">
                                                             @csrf
                                                             <input type="hidden" value="{{$product->id}}" name="id">
                                                             <input type="hidden" value="{{$product->name}}" name="name">
                                                             <input type="hidden" value={{$product->price}} name="price">
                                                             <button class="btn hvr-hover " type="submit" style="color: white"> Add to Cart </button>
-                                                        </form>
+                                                        </form></li>
+                                                    
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
@@ -231,107 +262,75 @@
                                         <h1 style="margin-left: 5rem">No items found</h1>
 
                                         @endforelse
-                                         {{$products->appends(request()->input())->links()}}  {{-- creating the pagination link --}}
+                                        {{-- sending view = grid for grid view so that we can load next page in same view grid or list. we will check view is grid or list in controller@index and send view 0 for grid and 1 for list so we can load view in same way --}}
+                                         {{$products->appends(request()->input())->appends(['view'=>'grid'])->links()}}  {{-- creating the pagination link --}}
                                         
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                <div role="tabpanel"
+                                @if($view==1) 
+                                class="tab-pane fade show active" 
+                                @else
+                                class="tab-pane fade" 
+                                @endif
+                                 
+                                 id="list-view">
                                     <div class="list-view-box">
+                                        @forelse($products as $product)
                                         <div class="row">
+                                            
                                             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                               
                                                 <div class="products-single fix">
                                                     <div class="box-img-hover">
                                                         <div class="type-lb">
-                                                            <p class="new">New</p>
+                                                            <p class="new">@if($product->quantity>5)
+                                                                In Stock
+                                                            @elseif($product->quantity<5&&$product->quantity>0)
+                                                                Low in Stock
+                                                            @else
+                                                                Out of Stock
+                                                            @endif</p>
                                                         </div>
-                                                        <img src="{{asset('frontend_assets/images/img-pro-01.jpg')}}" class="img-fluid" alt="Image">
+                                                        <img src="{{asset('Storage/'.$product->image)}}" class="img-fluid" alt="Image">
                                                         <div class="mask-icon">
                                                             <ul>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                            <li><a href="{{route('products.show',$product->slug)}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                {{-- <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li> --}}
+                                                                {{-- <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li> --}}
                                                             </ul>
 
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
                                                 <div class="why-text full-width">
-                                                    <h4>Lorem ipsum dolor sit amet</h4>
-                                                    <h5> <del>$ 60.00</del> $40.79</h5>
-                                                    <p>Integer tincidunt aliquet nibh vitae dictum. In turpis sapien, imperdiet quis magna nec, iaculis ultrices ante. Integer vitae suscipit nisi. Morbi dignissim risus sit amet orci porta, eget aliquam purus
-                                                        sollicitudin. Cras eu metus felis. Sed arcu arcu, sagittis in blandit eu, imperdiet sit amet eros. Donec accumsan nisi purus, quis euismod ex volutpat in. Vestibulum eleifend eros ac lobortis aliquet.
-                                                        Suspendisse at ipsum vel lacus vehicula blandit et sollicitudin quam. Praesent vulputate semper libero pulvinar consequat. Etiam ut placerat lectus.</p>
-                                                    <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                                    <a href="{{route('products.show',$product->slug)}}"><h4>{{$product->name}}</h4></a>
+                                                    <h5> <del>{{$product->previousPrice()}}</del> {{$product->price}}</h5>
+                                                    <p> {{$product->description}}</p>
+                                                        <div class="d-flex justify-content-between">
+                                                            <a class="btn hvr-hover "  ><form action="{{route('cart.store')}}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" value="{{$product->id}}" name="id">
+                                                                <input type="hidden" value="{{$product->name}}" name="name">
+                                                                <input type="hidden" value={{$product->price}} name="price">
+                                                                <button type="submit" style="font-size:1rem;font-weight:bold;background-color:Transparent;border:none;color:white"> Add to Cart </button>
+                                                            </form></a>
+                                                            <a class="btn hvr-hover" href="{{route('wishlist.store',$product)}}">Add to Wishlist</a>
+                                                        </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
+                                        @empty
+                                        <h1 style="margin-left: 5rem">No items found</h1>
+                                        @endforelse
+                                        
                                     </div>
-                                    <div class="list-view-box">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                                <div class="products-single fix">
-                                                    <div class="box-img-hover">
-                                                        <div class="type-lb">
-                                                            <p class="sale">Sale</p>
-                                                        </div>
-                                                        <img src="{{asset('frontend_assets/images/img-pro-02.jpg')}}" class="img-fluid" alt="Image">
-                                                        <div class="mask-icon">
-                                                            <ul>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                            </ul>
+                                    {{$products->appends(request()->input())->appends(['view'=>'list'])->links()}}
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
-                                                <div class="why-text full-width">
-                                                    <h4>Lorem ipsum dolor sit amet</h4>
-                                                    <h5> <del>$ 60.00</del> $40.79</h5>
-                                                    <p>Integer tincidunt aliquet nibh vitae dictum. In turpis sapien, imperdiet quis magna nec, iaculis ultrices ante. Integer vitae suscipit nisi. Morbi dignissim risus sit amet orci porta, eget aliquam purus
-                                                        sollicitudin. Cras eu metus felis. Sed arcu arcu, sagittis in blandit eu, imperdiet sit amet eros. Donec accumsan nisi purus, quis euismod ex volutpat in. Vestibulum eleifend eros ac lobortis aliquet.
-                                                        Suspendisse at ipsum vel lacus vehicula blandit et sollicitudin quam. Praesent vulputate semper libero pulvinar consequat. Etiam ut placerat lectus.</p>
-                                                    <a class="btn hvr-hover" href="#">Add to Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-view-box">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                                <div class="products-single fix">
-                                                    <div class="box-img-hover">
-                                                        <div class="type-lb">
-                                                            <p class="sale">Sale</p>
-                                                        </div>
-                                                        <img src="{{asset('frontend_assets/images/img-pro-03.jpg')}}" class="img-fluid" alt="Image">
-                                                        <div class="mask-icon">
-                                                            <ul>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                            </ul>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
-                                                <div class="why-text full-width">
-                                                    <h4>Lorem ipsum dolor sit amet</h4>
-                                                    <h5> <del>$ 60.00</del> $40.79</h5>
-                                                    <p>Integer tincidunt aliquet nibh vitae dictum. In turpis sapien, imperdiet quis magna nec, iaculis ultrices ante. Integer vitae suscipit nisi. Morbi dignissim risus sit amet orci porta, eget aliquam purus
-                                                        sollicitudin. Cras eu metus felis. Sed arcu arcu, sagittis in blandit eu, imperdiet sit amet eros. Donec accumsan nisi purus, quis euismod ex volutpat in. Vestibulum eleifend eros ac lobortis aliquet.
-                                                        Suspendisse at ipsum vel lacus vehicula blandit et sollicitudin quam. Praesent vulputate semper libero pulvinar consequat. Etiam ut placerat lectus.</p>
-                                                    <a class="btn hvr-hover" href="#">Add to Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

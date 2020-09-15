@@ -52,7 +52,7 @@
             </div>
             <div class="col-xl-7 col-lg-7 col-md-6">
                 <div class="single-product-details">
-                    <h2>{{$product->name}}</h2>
+                <h1 style="color:black;font-weight:bold">{{$product->name}}</h1>{!!$stocklevel!!}
                     <h5> <del>{{$product->previousPrice()}}</del> {{$product->price}}</h5>
                     <p class="available-stock"><span> More than 20 available / <a href="#">8 sold </a></span>
                         <p>
@@ -83,21 +83,26 @@
                             </ul>
 
                             <div class="price-box-bar">
-                                <div class="cart-and-bay-btn">
-                                    <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-                                    <form action="{{route('cart.store')}}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="{{$product->id}}" name="id">
-                                    <input type="hidden" value="{{$product->name}}" name="name">
-                                    <input type="hidden" value={{$product->price}} name="price">
-                                    <button class="btn hvr-hover " type="submit" style="color: white"> Add to Cart </button>
-                                    </form>
-                                </div>
+                                {{-- if product Quantity is 0 user cant buy item --}}
+                                @if($product->quantity>0)
+                                    <div class="cart-and-bay-btn">
+                                        {{-- <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a> --}}
+                                        <form action="{{route('cart.store')}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" value="{{$product->id}}" name="id">
+                                        <input type="hidden" value="{{$product->name}}" name="name">
+                                        <input type="hidden" value={{$product->price}} name="price">
+                                        <button class="btn hvr-hover " type="submit" style="color: white"> Add to Cart </button>
+                                        </form>
+                                    </div>
+                                
+                                @endif
+                                
                             </div>
 
                             <div class="add-to-btn">
                                 <div class="add-comp">
-                                    <a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
+                                    <a class="btn hvr-hover" href="{{route('wishlist.store',$product)}}"><i class="fas fa-heart"></i> Add to wishlist</a>
                                     <a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>
                                 </div>
                                 <div class="share-bar">

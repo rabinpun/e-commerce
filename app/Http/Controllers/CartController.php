@@ -18,6 +18,10 @@ class CartController extends Controller
        
         $discount=session()->get('usedcoupon')['discount']  ?? 0; //its sets value to 0 if there is no such item in session otherwise there will be error 
         $newsubtotal=Cart::subtotal()-$discount;
+        if($newsubtotal<0)
+        {
+            $newsubtotal=0;//if discount is more than the subtotal subtotal cannot be negative
+        }
         $newtax=config('cart.tax')/100 * $newsubtotal;//config('cart.tax') this gets the tax value from the cart.php in config folder
         $newtotal=$newsubtotal+$newtax;
         session()->put('finalamt',[
@@ -105,6 +109,10 @@ class CartController extends Controller
             session()->flash('errors',collect(['Please select between 1 and 5']));
             return response()->json(['success'=>false]);//goes to response of axios with json having success false  we can use error also for this
         }
+        elseif($request->quantity>$request->item_quantity){
+            session()->flash('errors',collect(['There is only '.$request->item_quantity.' product(s) left in stock']));
+            return response()->json(['success'=>false]);
+        }
         Cart::update($id, $request->quantity);
         session()->flash('success_message','Item quantity updated.');
         return response()->json(['success'=>true]);//we cant use view or redirect we can only use response or error if response goes to response if error goes to error 
@@ -149,6 +157,7 @@ class CartController extends Controller
         Cart::instance('saveforlater')->add($item->id,$item->name,$item->qty,$item->price)->associate('App\Product');
         return redirect()->route('cart.index')->with('success_message','Item saved for later!');
     }
+    
     }
 
 

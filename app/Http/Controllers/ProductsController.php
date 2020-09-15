@@ -14,6 +14,12 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        if(request()->view=='list'){
+            $view=1;
+        }
+        else{
+            $view=0;
+        }
             if (request()->category) {//enters if we have a query ie if we click on the link of the categories which has a route and a query 'category'=>$category->slug
                 $products=Product::with('categories')->whereHas('categories',function($query){
                     //access product with category           
@@ -49,7 +55,8 @@ class ProductsController extends Controller
                 'categories'=>$categories,
                 'categoryName'=>$categoryName,
                 'countno'=>$countno,
-                'totalcount'=>$totalelectronicscount
+                'totalcount'=>$totalelectronicscount,
+                'view'=>$view
                 ]);
         
     }
@@ -71,8 +78,22 @@ class ProductsController extends Controller
         
         $mal_products=Product::where('slug','!=',$slug)->MightAlsoLike()->get();
         $product=Product::where('slug',$slug)->firstOrFail();
+        $stockquantity=$product->quantity;
+        //getting value of stock threshold from voyager setting so that an admin can change the threshold value
+        //setting('site.stock_threshold') this is from the setting of the voyager we can set there a variable and access in the backend with setting('slugname of the variable')
+        if($stockquantity>setting('site.stock_threshold')){
+            $stocklevel='<h4 class="badge badge-success">In stock</h4>';
+        }
+        elseif($stockquantity==0){
+            $stocklevel='<h4 class="badge badge-danger">Out in stock</h4>';
+        }
+        //no need for negative check since quanity is unsigned integer
+        elseif($stockquantity<=setting('site.stock_threshold')){
+            $stocklevel='<h4 class="badge badge-warning">Low in stock</h4>';
+        }
+        
         //  dd($product->price);
-        return view('main.product')->with([
+        return view('main.product',compact('stocklevel'))->with([
             'product'=>$product,
             'mal_products'=>$mal_products
             ]);
